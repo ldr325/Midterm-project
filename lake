@@ -1,0 +1,36 @@
+PImage lake;
+
+void setup() {
+  size(4032,3024);
+  lake = loadImage("IMG_7883.jpg");
+}
+
+void draw() {
+  image(lake,0,0);
+  loadPixels();
+  
+  lake.loadPixels();
+  for(int x = 5; x < width; x++) {
+    for(int y = 0; y < height; y++) {
+      int loc = x+y*lake.width;
+      float r = red(lake.pixels[loc]);
+      float g = green(lake.pixels[loc]);
+      float b = blue(lake.pixels[loc]);
+      float d = dist(width/2, height/2, x,y);
+      float factor = map(d,-1000,1000,0,2);
+      color pix = lake.pixels[loc];
+      
+      int leftLoc = (x-1) + y*(lake.width/2);
+      color leftPix = lake.pixels[leftLoc];
+      
+      float diff = abs(brightness(pix) - brightness(leftPix));
+      pixels[loc] = color(diff);
+      if(height>100) {
+        pixels[loc] = color(b*factor,r*factor*(g/25),g*factor);
+      }
+    }
+  }
+  updatePixels();
+  save("lake.jpg");
+}
+  
