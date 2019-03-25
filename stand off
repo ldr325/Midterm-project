@@ -1,0 +1,28 @@
+PImage stand;
+
+void setup() {
+  size(4032,3024);
+  stand = loadImage("IMG_7908.jpg");
+}
+
+void draw() {
+  image(stand,0,0);
+  loadPixels();
+  
+  stand.loadPixels();
+  for (int y = 0; y < height; y++) {
+    for(int x = 0; x < width; x++) {
+      int loc = x+y*width;
+      float r = red(stand.pixels[loc]);
+      float g = green(stand.pixels[loc]);
+      float b = blue(stand.pixels[loc]);
+      float d = dist(width/2, height/2, x,y);
+      float factor = map(d,-1000,1000,0,2);
+      pixels[loc] = color(b*factor*2,g*factor,r*factor);
+      
+    }
+  }
+  updatePixels();
+  save("stand.jpg");
+}
+      
