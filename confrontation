@@ -1,0 +1,29 @@
+PImage con;
+
+void setup() {
+  size(4032,3024);
+  con = loadImage("IMG_7909.jpg");
+}
+
+void draw() {
+  image(con,0,0);
+  loadPixels();
+  
+  con.loadPixels();
+  for (int y = 0; y < height; y++) {
+    for(int x = 0; x < width; x++) {
+      int loc = x+y*width;
+      float r = red(con.pixels[loc]);
+      float g = green(con.pixels[loc]);
+      float b = blue(con.pixels[loc]);
+      float d = dist(width/2, height/2, x,y);
+      float factor = map(d,-1000,1000,0,2);
+      pixels[loc] = color(r*factor,b/factor,g);
+      
+      
+    }
+  }
+  updatePixels();
+  save("con.jpg");
+}
+      
