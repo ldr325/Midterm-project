@@ -1,0 +1,50 @@
+PImage swan;
+
+void setup() {
+  size(3520,1980);
+  swan = loadImage("IMG_7914.JPG");
+}
+
+void draw() {
+  image(swan,0,0);
+  loadPixels();
+  
+  swan.loadPixels();
+  for (int y = 0; y < height; y++) {
+    for(int x = 0; x < width; x++) {
+      int loc = x+y*width;
+      float r = red(swan.pixels[loc]);
+      float g = green(swan.pixels[loc]);
+      float b = blue(swan.pixels[loc]);
+      float d = dist(width/2, height/2, x,y);
+      float factor = map(d,-1000,1000,0,2);
+      color pix = swan.pixels[loc];
+  
+      int leftLoc = (x+1) + y*(swan.width/2);
+      color leftPix = swan.pixels[leftLoc];
+      
+      float diff = abs(brightness(pix) - brightness(leftPix));
+      //pixels[loc] = color(diff);
+      pixels[loc] = color(b*factor*50*r, g*factor, r*factor);
+      if(x<1700) {
+        pixels[loc] = color(b,g,r);
+        pixels[loc] = color(diff);
+      }
+      if(x>1878) {
+        pixels[loc] = color(b,g,r);
+        pixels[loc] = color(diff);
+      }
+      if(y<525) {
+        pixels[loc] = color(b,g,r);
+        pixels[loc] = color(diff);
+      }
+      if(y>600) {
+        pixels[loc] = color(b,g,r);
+        pixels[loc] = color(diff);
+      }
+      
+    }
+  }
+  updatePixels();
+  save("swan.jpg");
+}
